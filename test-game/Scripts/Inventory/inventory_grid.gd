@@ -6,6 +6,7 @@ const SLOT_SIZE: int = 16
 @export var dimensions: Vector2i
 
 var slot_data: Array[Node] = []
+var held_item_intersects: bool = false
 
 func _ready() -> void:
 	create_slots()
@@ -32,7 +33,9 @@ func _gui_input(event: InputEvent) -> void:
 				item.get_picked_up()
 				remove_item_from_slot_data(item)
 			else:
-				var index = get_slot_index_from_coords(held_item.anchor_point)
+				if !held_item: return
+				var offset = Vector2(SLOT_SIZE, SLOT_SIZE) / 2
+				var index = get_slot_index_from_coords(held_item.anchor_point + offset)
 				var items = items_in_area(index, held_item.data.dimensions)
 				if items.size():
 					if items.size() == 1:
@@ -43,6 +46,16 @@ func _gui_input(event: InputEvent) -> void:
 					return
 				held_item.get_placed(get_coords_from_slot_index(index))
 				add_item_to_slot_data(index, held_item)
+	if event is InputEventMouseMotion:
+		var held_item = get_tree().get_first_node_in_group("held_item")
+		if held_item:
+			detect_held_item_intersection(held_item)
+
+func detect_held_item_intersection(held_item: Node) -> void:
+	var h_rect = Rect2(held_item.anchor_point, held_item.size)
+	var g_rect = Rect2(global_position, size)
+	var inter = h_rect.intersection(g_rect).size
+	held_item_intersects = (inter.x * inter.y) / (held_item.size.x * held_item.size.y) > 0.8
 
 func remove_item_from_slot_data(item: Node) -> void:
 	for i in slot_data.size():
