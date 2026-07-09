@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://eembohgqkoxw"]
+
+[ext_resource type="Script" uid="uid://leh8dx1rxpg5" path="res://Scripts/Inventory/inventory.gd" id="1_0o5tj"]
+[ext_resource type="Script" uid="uid://cu860tidxjtji" path="res://Scripts/Inventory/inventory_grid.gd" id="2_u3snc"]
+[ext_resource type="PackedScene" uid="uid://ct4j1u215gblu" path="res://Scenes/Inventory/inventory_slot.tscn" id="3_qqsdq"]
+
+[node name="InventoryMain" type="Control" unique_id=49084733]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Inventory" type="PanelContainer" parent="." unique_id=684969063]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+script = ExtResource("1_0o5tj")
+
+[node name="InventoryGrid" type="GridContainer" parent="Inventory" unique_id=1069458000]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("2_u3snc")
+inventory_slot_scene = ExtResource("3_qqsdq")
+dimensions = Vector2i(4, 4)
