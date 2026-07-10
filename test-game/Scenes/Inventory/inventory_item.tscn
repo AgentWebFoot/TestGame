@@ -4,3 +4,12 @@
 
 [node name="InventoryItem" type="Sprite2D" unique_id=1859538929]
 script = ExtResource("1_fovgl")
+
+[node name="QuantityLabel" type="Label" parent="." unique_id=1375772435]
+unique_name_in_owner = true
+custom_maximum_size = Vector2(16, 16)
+offset_left = -30.0
+offset_top = -30.0
+offset_right = -20.0
+offset_bottom = -18.0
+theme_override_font_sizes/font_size = 8
