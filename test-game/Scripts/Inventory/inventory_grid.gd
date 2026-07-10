@@ -1,6 +1,6 @@
 extends GridContainer
 
-const SLOT_SIZE: int = 16
+const SLOT_SIZE: int = 32
 
 @export var inventory_slot_scene: PackedScene
 @export var dimensions: Vector2i
@@ -33,7 +33,7 @@ func _gui_input(event: InputEvent) -> void:
 				item.get_picked_up()
 				remove_item_from_slot_data(item)
 			else:
-				if !held_item: return
+				if !held_item_intersects: return
 				var offset = Vector2(SLOT_SIZE, SLOT_SIZE) / 2
 				var index = get_slot_index_from_coords(held_item.anchor_point + offset)
 				var items = items_in_area(index, held_item.data.dimensions)
