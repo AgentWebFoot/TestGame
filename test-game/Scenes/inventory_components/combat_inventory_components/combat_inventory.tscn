@@ -3,8 +3,18 @@
 [ext_resource type="Script" uid="uid://bk7gnw1sc8nva" path="res://Scripts/inventory/combat_inventory.gd" id="1_0fvou"]
 [ext_resource type="Script" uid="uid://leh8dx1rxpg5" path="res://Scripts/inventory/inventory.gd" id="2_duybw"]
 [ext_resource type="PackedScene" uid="uid://c06jfjrf1udqe" path="res://Scenes/inventory_components/combat_inventory_components/inventory_item.tscn" id="3_0fvou"]
+[ext_resource type="Script" uid="uid://cxsxebxcv43g2" path="res://Scripts/inventory/item_data.gd" id="3_5enj4"]
+[ext_resource type="Texture2D" uid="uid://d1r7hu3gn2tx1" path="res://Resources/Sprout Lands - Sprites - Basic pack/Objects/Egg_item.png" id="4_5enj4"]
 [ext_resource type="Script" uid="uid://cu860tidxjtji" path="res://Scripts/inventory/inventory_grid.gd" id="4_bpmhi"]
 [ext_resource type="PackedScene" uid="uid://dvgk62vyi7q8f" path="res://Scenes/inventory_components/combat_inventory_components/inventory_slot.tscn" id="5_0fvou"]
+
+[sub_resource type="Resource" id="Resource_0fvou"]
+script = ExtResource("3_5enj4")
+name = "Test1"
+texture = ExtResource("4_5enj4")
+dimensions = Vector2i(1, 1)
+weight = 0.5
+metadata/_custom_type_script = "uid://cxsxebxcv43g2"
 
 [node name="CombatInventoryMain" type="Control" unique_id=2067008066]
 layout_mode = 3
@@ -16,7 +26,6 @@ grow_vertical = 2
 script = ExtResource("1_0fvou")
 
 [node name="CombatInventory" type="PanelContainer" parent="." unique_id=769941048]
-custom_minimum_size = Vector2(1152, 580)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -34,11 +43,14 @@ grow_vertical = 2
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 script = ExtResource("2_duybw")
+items = Array[ExtResource("3_5enj4")]([SubResource("Resource_0fvou")])
 inventory_item_scene = ExtResource("3_0fvou")
 
 [node name="InventoryGrid" type="GridContainer" parent="CombatInventory/Inventory" unique_id=1459884599]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
 script = ExtResource("4_bpmhi")
 inventory_slot_scene = ExtResource("5_0fvou")
 dimensions = Vector2i(8, 8)

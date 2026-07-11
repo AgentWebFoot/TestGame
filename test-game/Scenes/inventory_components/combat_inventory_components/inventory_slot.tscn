@@ -2,6 +2,7 @@
 
 [node name="InventorySlot" type="ColorRect" unique_id=622274387]
 custom_minimum_size = Vector2(64, 64)
+mouse_filter = 2
 color = Color(0.23921569, 0.23921569, 0.23921569, 1)
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=843394383]
@@ -10,3 +11,4 @@ offset_left = 1.0
 offset_top = 1.0
 offset_right = 63.0
 offset_bottom = 63.0
+mouse_filter = 2

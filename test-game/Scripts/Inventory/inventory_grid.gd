@@ -15,8 +15,8 @@ func _ready() -> void:
 func create_slots() -> void:
 	self.columns = dimensions.x
 	
-	for x in dimensions.x:
-		for y in dimensions.y:
+	for y in dimensions.y:
+		for x in dimensions.x:
 			var inventory_slot = inventory_slot_scene.instantiate()
 			add_child(inventory_slot)
 
@@ -33,7 +33,8 @@ func _gui_input(event: InputEvent) -> void:
 				item.get_picked_up()
 				remove_item_from_slot_data(item)
 			else:
-				if !held_item_intersects: return
+				if !held_item_intersects: 
+					return
 				var offset = Vector2(SLOT_SIZE, SLOT_SIZE) / 2
 				var index = get_slot_index_from_coords(held_item.anchor_point + offset)
 				var items = items_in_area(index, held_item.data.dimensions)
