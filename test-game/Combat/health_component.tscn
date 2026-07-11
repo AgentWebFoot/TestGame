@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://blbq24j6cp5vd"]
+
+[ext_resource type="Script" uid="uid://cepw6y6px4d1v" path="res://Combat/HealthComponent.gd" id="1_b2ebj"]
+
+[node name="HealthComponent" type="Node2D" unique_id=1642405860]
+script = ExtResource("1_b2ebj")
+MAX_HEALTH = null

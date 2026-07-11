@@ -2,18 +2,24 @@ extends CharacterBody2D
 
 @export var move_speed : float = 100
 @export var starting_direction : Vector2 = Vector2(0, 1)
+@export var dash_multiplier = 2.0
+@export var dash_duration = 0.15
 
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
+
+var is_dashing = false
 
 func _ready():
 	add_to_group("Player")
 	update_animation_parameters(starting_direction)
 
 func _physics_process(_delta):
+	if Input.is_action_just_pressed("dash") and !is_dashing:
+		dash()
 	var input_direction = Vector2(
-		Input.get_action_strength("right") - Input.get_action_strength("left"),
-		Input.get_action_strength("down")-Input.get_action_strength("up")
+		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
+		Input.get_action_strength("move_down")-Input.get_action_strength("move_up")
 	)
 	
 	update_animation_parameters(input_direction)
@@ -22,6 +28,15 @@ func _physics_process(_delta):
 	
 	move_and_slide()
 	pick_new_state()
+
+func dash():
+	is_dashing = true
+	move_speed *= dash_multiplier
+
+	await get_tree().create_timer(dash_duration).timeout
+
+	move_speed /= dash_multiplier
+	is_dashing = false
 
 func update_animation_parameters(move_input : Vector2):
 	if(move_input != Vector2.ZERO):
