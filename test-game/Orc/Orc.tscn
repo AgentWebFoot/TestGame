@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://d0krge7rwjc8o" path="res://Orc/orc1_walk_full.png" id="2_8y2mw"]
 [ext_resource type="PackedScene" uid="uid://blbq24j6cp5vd" path="res://Combat/health_component.tscn" id="3_35l8p"]
 [ext_resource type="PackedScene" uid="uid://brfrfpncin1fy" path="res://Combat/hitbox_component.tscn" id="4_2ec0m"]
-[ext_resource type="PackedScene" uid="uid://c2n5ffr4wv25m" path="res://Combat/Weapons/weapon.tscn" id="5_2ec0m"]
 
 [sub_resource type="Animation" id="Animation_gelwo"]
 length = 0.001
@@ -252,12 +251,11 @@ size = Vector2(15, 27)
 [node name="Orc" type="CharacterBody2D" unique_id=1670870033]
 z_index = 3
 y_sort_enabled = true
-collision_layer = 3
-collision_mask = 3
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_8y2mw")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2016282113]
-position = Vector2(0, -8)
 texture = ExtResource("2_8y2mw")
 hframes = 6
 vframes = 4
@@ -273,20 +271,25 @@ parameters/Walk/blend_position = Vector2(0, 0)
 
 [node name="CollisionMovement" type="CollisionShape2D" parent="." unique_id=1947552342]
 y_sort_enabled = true
-position = Vector2(0, -4)
+position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_fb7ps")
 
 [node name="Timer" type="Timer" parent="." unique_id=1677199448]
 
 [node name="HealthComponent" parent="." unique_id=1642405860 instance=ExtResource("3_35l8p")]
+MAX_HEALTH = 80.0
 
-[node name="HitboxComponent" parent="." unique_id=907885426 instance=ExtResource("4_2ec0m")]
+[node name="HitboxComponent" parent="." unique_id=907885426 node_paths=PackedStringArray("health_component", "knockback_body", "damage_visual") instance=ExtResource("4_2ec0m")]
+visible = false
+collision_layer = 16
+collision_mask = 16
+health_component = NodePath("../HealthComponent")
+knockback_body = NodePath("..")
+damage_visual = NodePath("../Sprite2D")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HitboxComponent" unique_id=32357277]
-position = Vector2(0, -11)
+position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_4v5ib")
 debug_color = Color(0.98428386, 0.10750259, 0.16210434, 0.41960785)
-
-[node name="Weapon" parent="." unique_id=397098870 instance=ExtResource("5_2ec0m")]
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

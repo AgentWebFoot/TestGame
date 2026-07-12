@@ -4,30 +4,75 @@ extends CharacterBody2D
 @export var starting_direction : Vector2 = Vector2(0, 1)
 @export var dash_multiplier = 2.0
 @export var dash_duration = 0.15
+@export var controller_aim_deadzone: float = 0.25
+@export var weapon_rotation_offset: float = 0.0
+@export var knockback_recovery: float = 700.0
+
+var movement_velocity := Vector2.ZERO
+var knockback_velocity:= Vector2.ZERO
 
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
+@onready var weapon: Node2D = $Sword
 
 var is_dashing = false
+var aim_direction: Vector2 = Vector2.RIGHT
 
 func _ready():
 	add_to_group("Player")
 	update_animation_parameters(starting_direction)
 
 func _physics_process(_delta):
+	update_weapon_aim()
 	if Input.is_action_just_pressed("dash") and !is_dashing:
 		dash()
+	if Input.is_action_just_pressed("attack"):
+		weapon.attack()
 	var input_direction = Vector2(
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
 		Input.get_action_strength("move_down")-Input.get_action_strength("move_up")
 	)
 	
+	knockback_velocity = knockback_velocity.move_toward(
+		Vector2.ZERO,
+		knockback_recovery * _delta
+	)
+	
 	update_animation_parameters(input_direction)
 	
-	velocity = input_direction * move_speed
-	
+	movement_velocity = input_direction * move_speed
+	velocity = movement_velocity - knockback_velocity
 	move_and_slide()
 	pick_new_state()
+
+func apply_knockback(direction: Vector2, force: float) -> void:
+	knockback_velocity = direction.normalized() * force
+
+func update_weapon_aim() -> void:
+	var stick_direction := Input.get_vector(
+		"aim_left",
+		"aim_right",
+		"aim_up",
+		"aim_down"
+	)
+	
+	if stick_direction.length() > controller_aim_deadzone:
+		# Controller right stick
+		aim_direction = stick_direction.normalized()
+	else:
+		# Mouse cursor
+		var mouse_direction := get_global_mouse_position() - global_position
+		if mouse_direction.length_squared() > 0.0:
+			aim_direction = mouse_direction.normalized()
+
+	if aim_direction.x >= 0:
+		# Facing right
+		weapon.scale.y = 1
+		weapon.rotation = aim_direction.angle() + weapon_rotation_offset
+	else:
+		# Facing left
+		weapon.scale.y = -1
+		weapon.rotation = aim_direction.angle() + weapon_rotation_offset
 
 func dash():
 	is_dashing = true
@@ -52,5 +97,5 @@ func pick_new_state():
 
 # DELETE ME LATER
 func _input(event):
-	if event is InputEventKey and event.keycode == KEY_ESCAPE and event.pressed:
+	if Input.is_action_just_pressed("exit"):
 		get_tree().quit()

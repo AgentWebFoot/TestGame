@@ -7,6 +7,7 @@ enum ORC_STATE {IDLE, WALK }
 @export var walk_time : float = 2
 @export var detectionRadius : float = 100
 @export var agroRadius : float = 200
+@export var knockback_decay: float = 800.0
 
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
@@ -17,32 +18,46 @@ enum ORC_STATE {IDLE, WALK }
 var is_agro: bool = false
 var move_direction : Vector2 = Vector2.ZERO
 var current_state : ORC_STATE = ORC_STATE.IDLE
+var knockback_velocity: Vector2 = Vector2.ZERO
+var movement_velocity := Vector2.ZERO
 
 func _ready():
 	pick_new_state()
 
 func _physics_process(_delta):
+	movement_velocity = Vector2.ZERO
+	
 	if player:
 		var distance_to_player = global_position.distance_to(player.global_position)
+		
 		if !is_agro and distance_to_player <= detectionRadius:
 			is_agro = true
+		
 		if is_agro and distance_to_player > agroRadius:
 			is_agro = false
 			pick_new_state()
-		if is_agro:
-			var to_player = player.global_position - global_position
-			move_direction = to_player.normalized()
-			current_state = ORC_STATE.WALK
-			state_machine.travel("Walk")
-			velocity = move_direction * move_speed
-			animation_tree.set("parameters/Walk/blend_position", move_direction)
-			animation_tree.set("parameters/Idle/blend_position", move_direction)
-			move_and_slide()
-			return
 			
-	if(current_state == ORC_STATE.WALK):
-		velocity = move_direction * move_speed
-		move_and_slide()
+	if is_agro:
+		var to_player = player.global_position - global_position
+		
+		move_direction = to_player.normalized()
+		movement_velocity = move_direction * move_speed
+		current_state = ORC_STATE.WALK
+		
+		state_machine.travel("Walk")
+		animation_tree.set("parameters/Walk/blend_position", move_direction)
+		animation_tree.set("parameters/Idle/blend_position", move_direction)
+			
+	elif current_state == ORC_STATE.WALK:
+		movement_velocity = move_direction * move_speed
+		
+	velocity = movement_velocity + knockback_velocity
+	move_and_slide()
+	
+	knockback_velocity = knockback_velocity.move_toward(
+		Vector2.ZERO,
+		knockback_decay * _delta
+	)
 
 func select_new_direction():
 	move_direction = Vector2(
@@ -53,6 +68,9 @@ func select_new_direction():
 		move_direction = Vector2.RIGHT
 	animation_tree.set("parameters/Walk/blend_position", move_direction)
 	animation_tree.set("parameters/Idle/blend_position", move_direction)
+
+func apply_knockback(direction: Vector2, force: float) -> void:
+	knockback_velocity = direction.normalized() * force
 
 func pick_new_state():
 	if is_agro:

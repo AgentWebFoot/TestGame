@@ -11,6 +11,9 @@ y_sort_enabled = true
 z_index = 0
 position = Vector2(-83, 29)
 
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player" unique_id=560338213]
+remote_path = NodePath("../../Camera2D")
+
 [node name="Orc" parent="." unique_id=1670870033 instance=ExtResource("3_6mob1")]
 z_index = 0
 position = Vector2(168, 82)
@@ -34,4 +37,6 @@ position = Vector2(-154, 351)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1909387718]
 z_index = 20
+position = Vector2(-83, 29)
 zoom = Vector2(3, 3)
+limit_enabled = false

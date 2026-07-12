@@ -3,12 +3,13 @@
 [ext_resource type="PackedScene" uid="uid://c2n5ffr4wv25m" path="res://Combat/Weapons/weapon.tscn" id="1_s1v1i"]
 [ext_resource type="Texture2D" uid="uid://ckq1oamo4htf7" path="res://Combat/Weapons/Slash.png" id="2_h6c36"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pkeou"]
-size = Vector2(46, 34.75)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8g4oa"]
+radius = 6.2833223
+height = 28.610785
 
 [sub_resource type="Animation" id="Animation_h6c36"]
 resource_name = "Attack"
-length = 0.53333336
+length = 0.26666668
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -17,43 +18,40 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.13333334, 0.26666668, 0.4),
+"times": PackedFloat32Array(0, 0.06666667, 0.13333334, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3]
 }
 
-[sub_resource type="Animation" id="Animation_7q3bt"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_bhhxs"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7q3bt"]
 _data = {
-&"Attack": SubResource("Animation_h6c36"),
-&"RESET": SubResource("Animation_7q3bt")
+&"Attack": SubResource("Animation_h6c36")
 }
 
 [node name="Sword" unique_id=397098870 instance=ExtResource("1_s1v1i")]
+knockback_force = 200.0
+attack_duration = 0.2
+attack_cooldown = 0.1
 
 [node name="Sprite2D" parent="." index="0" unique_id=1695758661]
-position = Vector2(5, -8)
+position = Vector2(-47, -58)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_h6c36")
+centered = false
 hframes = 4
+frame = 3
 
-[node name="CollisionShape2D" parent="Area2D" parent_id_path=PackedInt32Array(95570106) index="0" unique_id=773213060]
-position = Vector2(10, -12.625)
-shape = SubResource("RectangleShape2D_pkeou")
+[node name="AttackArea" parent="." index="1" unique_id=95570106]
+collision_layer = 16
+collision_mask = 16
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4" unique_id=318232804]
-libraries/ = SubResource("AnimationLibrary_bhhxs")
+[node name="CollisionShape2D" parent="AttackArea" index="0" unique_id=773213060]
+visible = false
+position = Vector2(12.000001, -5)
+rotation = 0.7557276
+skew = 0.18849556
+shape = SubResource("CapsuleShape2D_8g4oa")
+
+[node name="AnimationPlayer" parent="." index="4" unique_id=217388248]
+libraries/ = SubResource("AnimationLibrary_7q3bt")

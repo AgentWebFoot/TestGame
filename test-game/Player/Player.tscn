@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cysqqa04ixn0l" path="res://Player/player.gd" id="2_ptld2"]
 [ext_resource type="PackedScene" uid="uid://brfrfpncin1fy" path="res://Combat/hitbox_component.tscn" id="3_8g4oa"]
 [ext_resource type="PackedScene" uid="uid://blbq24j6cp5vd" path="res://Combat/health_component.tscn" id="4_6ysni"]
+[ext_resource type="PackedScene" uid="uid://8byoy5kgkyp6" path="res://Combat/Weapons/sword.tscn" id="5_8g4oa"]
 
 [sub_resource type="Animation" id="Animation_ptld2"]
 length = 0.001
@@ -638,7 +639,7 @@ states/Walk/position = Vector2(620, 100)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_rh25e"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_jvlkm"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_hfpxt")]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4v5ib"]
-size = Vector2(12, 8)
+size = Vector2(12, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fb7ps"]
 size = Vector2(11, 16)
@@ -646,13 +647,11 @@ size = Vector2(11, 16)
 [node name="Player" type="CharacterBody2D" unique_id=3829449]
 z_index = 3
 y_sort_enabled = true
-collision_layer = 3
-collision_mask = 2
 script = ExtResource("2_ptld2")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1180147637]
 y_sort_enabled = true
-position = Vector2(0, -9)
+position = Vector2(0, -4)
 texture = ExtResource("1_vx5l7")
 hframes = 4
 vframes = 5
@@ -668,14 +667,21 @@ parameters/Idle/blend_position = Vector2(0, 0)
 parameters/Walk/blend_position = Vector2(0, 0)
 
 [node name="CollisionMovement" type="CollisionShape2D" parent="." unique_id=1648383219]
-position = Vector2(0, -2)
+position = Vector2(0, 2.5)
 shape = SubResource("RectangleShape2D_4v5ib")
 
-[node name="HitboxComponent" parent="." unique_id=907885426 instance=ExtResource("3_8g4oa")]
+[node name="HitboxComponent" parent="." unique_id=907885426 node_paths=PackedStringArray("health_component", "knockback_body", "damage_visual") instance=ExtResource("3_8g4oa")]
+collision_layer = 8
+collision_mask = 8
+health_component = NodePath("../HealthComponent")
+knockback_body = NodePath("..")
+damage_visual = NodePath("../Sprite2D")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HitboxComponent" unique_id=670096654]
-position = Vector2(0.5, -7)
+position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_fb7ps")
 debug_color = Color(0.98418385, 0.10309101, 0.18299195, 0.41960785)
 
 [node name="HealthComponent" parent="." unique_id=1642405860 instance=ExtResource("4_6ysni")]
+
+[node name="Sword" parent="." unique_id=397098870 instance=ExtResource("5_8g4oa")]
