@@ -10,6 +10,11 @@ y_sort_enabled = true
 [node name="Player" parent="." unique_id=3829449 instance=ExtResource("2_o67dp")]
 z_index = 0
 position = Vector2(-83, 29)
+collision_mask = 3
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1909387718]
+z_index = 20
+zoom = Vector2(3, 3)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player" unique_id=560338213]
 remote_path = NodePath("../../Camera2D")
@@ -18,7 +23,6 @@ remote_path = NodePath("../../Camera2D")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1909387718]
 z_index = 20
-position = Vector2(-83, 29)
 zoom = Vector2(3, 3)
 limit_enabled = false
 
