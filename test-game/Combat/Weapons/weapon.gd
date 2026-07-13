@@ -4,6 +4,7 @@ extends Node2D
 @export var knockback_force := 100.0
 @export var attack_duration: float = 0.15
 @export var attack_cooldown: float = 0.35
+@export var stun_duration: float = 0.0
 
 @onready var weapon_sprite: Sprite2D = $Sprite2D
 @onready var attack_area: Area2D = $AttackArea
@@ -50,7 +51,6 @@ func _on_attack_timer_timeout() -> void:
 	animation_player.stop()
 	cooldown_timer.start(attack_cooldown)
 
-
 func _on_cooldown_timer_timeout() -> void:
 	can_attack = true
 
@@ -62,5 +62,6 @@ func _on_hitbox_area_entered(area):
 		attack.attack_damage = attack_damage
 		attack.knockback_force = knockback_force
 		attack.attack_position = global_position
+		attack.stun_duration = stun_duration
 		
 		hitbox.damage(attack)

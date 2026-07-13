@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://brfrfpncin1fy" path="res://Combat/hitbox_component.tscn" id="3_8g4oa"]
 [ext_resource type="PackedScene" uid="uid://blbq24j6cp5vd" path="res://Combat/health_component.tscn" id="4_6ysni"]
 [ext_resource type="PackedScene" uid="uid://8byoy5kgkyp6" path="res://Combat/Weapons/sword.tscn" id="5_8g4oa"]
+[ext_resource type="PackedScene" uid="uid://b1qycipn7xfvv" path="res://Player/DashSmoke.tscn" id="6_6ysni"]
 
 [sub_resource type="Animation" id="Animation_ptld2"]
 length = 0.001
@@ -648,6 +649,8 @@ size = Vector2(11, 16)
 z_index = 3
 y_sort_enabled = true
 script = ExtResource("2_ptld2")
+dash_multiplier = 3.0
+dash_smoke_scene = ExtResource("6_6ysni")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1180147637]
 y_sort_enabled = true

@@ -286,6 +286,8 @@ collision_mask = 16
 health_component = NodePath("../HealthComponent")
 knockback_body = NodePath("..")
 damage_visual = NodePath("../Sprite2D")
+hit_cooldown = 0.4
+flash_duration = 0.1
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HitboxComponent" unique_id=32357277]
 position = Vector2(0, -3)

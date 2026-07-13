@@ -33,6 +33,7 @@ _data = {
 knockback_force = 200.0
 attack_duration = 0.2
 attack_cooldown = 0.1
+stun_duration = 0.15
 
 [node name="Sprite2D" parent="." index="0" unique_id=1695758661]
 position = Vector2(-47, -58)
@@ -40,7 +41,6 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_h6c36")
 centered = false
 hframes = 4
-frame = 3
 
 [node name="AttackArea" parent="." index="1" unique_id=95570106]
 collision_layer = 16

@@ -2,11 +2,15 @@ extends CharacterBody2D
 
 @export var move_speed : float = 100
 @export var starting_direction : Vector2 = Vector2(0, 1)
-@export var dash_multiplier = 2.0
-@export var dash_duration = 0.15
+
 @export var controller_aim_deadzone: float = 0.25
 @export var weapon_rotation_offset: float = 0.0
 @export var knockback_recovery: float = 700.0
+
+@export var dash_multiplier = 2.0
+@export var dash_duration = 0.15
+@export var dash_smoke_scene: PackedScene
+@export var dash_smoke_distance: float = 12.0
 
 var movement_velocity := Vector2.ZERO
 var knockback_velocity:= Vector2.ZERO
@@ -14,12 +18,15 @@ var knockback_velocity:= Vector2.ZERO
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
 @onready var weapon: Node2D = $Sword
+@onready var hitbox: HitboxComponent = $HitboxComponent
 
 var is_dashing = false
 var aim_direction: Vector2 = Vector2.RIGHT
+var last_move_direction: Vector2 = Vector2.DOWN
 
 func _ready():
 	add_to_group("Player")
+	last_move_direction = starting_direction.normalized()
 	update_animation_parameters(starting_direction)
 
 func _physics_process(_delta):
@@ -32,6 +39,8 @@ func _physics_process(_delta):
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
 		Input.get_action_strength("move_down")-Input.get_action_strength("move_up")
 	)
+	if input_direction != Vector2.ZERO:
+		last_move_direction = input_direction.normalized()
 	
 	knockback_velocity = knockback_velocity.move_toward(
 		Vector2.ZERO,
@@ -77,11 +86,31 @@ func update_weapon_aim() -> void:
 func dash():
 	is_dashing = true
 	move_speed *= dash_multiplier
+	hitbox.can_be_hit = false
+	
+	spawn_dash_smoke()
 
 	await get_tree().create_timer(dash_duration).timeout
 
 	move_speed /= dash_multiplier
 	is_dashing = false
+	hitbox.can_be_hit = true
+
+func spawn_dash_smoke() -> void:
+	if dash_smoke_scene == null:
+		return
+
+	var smoke := dash_smoke_scene.instantiate() as Node2D
+
+	# Add it to the world rather than making it follow the player.
+	get_parent().add_child(smoke)
+
+	# Position it behind the direction the player is moving.
+	smoke.global_position = global_position - (
+		last_move_direction * dash_smoke_distance
+	)
+
+	smoke.rotation = last_move_direction.angle()
 
 func update_animation_parameters(move_input : Vector2):
 	if(move_input != Vector2.ZERO):

@@ -7,6 +7,7 @@ enum ORC_STATE {IDLE, WALK }
 @export var walk_time : float = 2
 @export var detectionRadius : float = 100
 @export var agroRadius : float = 200
+@export var knockback_duration: float = 0.15
 @export var knockback_decay: float = 800.0
 
 @onready var animation_tree = $AnimationTree
@@ -15,10 +16,14 @@ enum ORC_STATE {IDLE, WALK }
 @onready var timer = $Timer
 @onready var player = get_tree().get_first_node_in_group("Player")
 
+
 var is_agro: bool = false
 var move_direction : Vector2 = Vector2.ZERO
 var current_state : ORC_STATE = ORC_STATE.IDLE
+var stun_time_remaining: float = 0.0
+var pending_stun_duration: float = 0.0
 var knockback_velocity: Vector2 = Vector2.ZERO
+var knockback_time_remaining: float = 0.0
 var movement_velocity := Vector2.ZERO
 
 func _ready():
@@ -50,7 +55,42 @@ func _physics_process(_delta):
 			
 	elif current_state == ORC_STATE.WALK:
 		movement_velocity = move_direction * move_speed
-		
+	
+	# Knockback
+	if knockback_time_remaining > 0.0:
+		knockback_time_remaining = maxf(
+			knockback_time_remaining - _delta,
+			0.0
+		)
+		movement_velocity = Vector2.ZERO
+		velocity = knockback_velocity
+		knockback_velocity = knockback_velocity.move_toward(
+			Vector2.ZERO,
+			knockback_decay * _delta
+		)
+		move_and_slide()
+
+		if knockback_time_remaining <= 0.0:
+			knockback_velocity = Vector2.ZERO
+			stun_time_remaining = pending_stun_duration
+			pending_stun_duration = 0.0
+
+		return
+	
+	# Stun
+	if stun_time_remaining > 0.0:
+		stun_time_remaining = maxf(
+			stun_time_remaining - _delta,
+			0.0
+		)
+
+		movement_velocity = Vector2.ZERO
+		velocity = Vector2.ZERO
+
+		state_machine.travel("Idle")
+		move_and_slide()
+		return
+	
 	velocity = movement_velocity + knockback_velocity
 	move_and_slide()
 	
@@ -70,7 +110,8 @@ func select_new_direction():
 	animation_tree.set("parameters/Idle/blend_position", move_direction)
 
 func apply_knockback(direction: Vector2, force: float) -> void:
-	knockback_velocity = direction.normalized() * force
+	knockback_velocity = direction * force
+	knockback_time_remaining = knockback_duration
 
 func pick_new_state():
 	if is_agro:
@@ -87,6 +128,8 @@ func pick_new_state():
 		current_state = ORC_STATE.IDLE
 		timer.start(idle_time)
 
-
 func _on_timer_timeout() -> void:
 	pick_new_state()
+
+func apply_stun(duration: float) -> void:
+	pending_stun_duration = maxf(pending_stun_duration, duration)

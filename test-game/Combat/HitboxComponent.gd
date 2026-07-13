@@ -26,7 +26,11 @@ func damage(attack: Attack):
 			direction,
 			attack.knockback_force
 		)
+		if knockback_body.has_method("apply_stun"):
+			knockback_body.apply_stun(attack.stun_duration)
+	
 	flash_red()
+	
 	await get_tree().create_timer(hit_cooldown).timeout
 	can_be_hit = true
 
