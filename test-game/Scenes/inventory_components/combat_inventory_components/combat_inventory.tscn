@@ -8,7 +8,6 @@
 [ext_resource type="Script" uid="uid://cu860tidxjtji" path="res://Scripts/inventory/inventory_grid.gd" id="4_bpmhi"]
 [ext_resource type="PackedScene" uid="uid://dvgk62vyi7q8f" path="res://Scenes/inventory_components/combat_inventory_components/inventory_slot.tscn" id="5_0fvou"]
 [ext_resource type="Texture2D" uid="uid://dl1kd67afk1ov" path="res://Resources/Sprout Lands - Sprites - Basic pack/Objects/Simple Milk and grass item.png" id="5_amvrc"]
-[ext_resource type="Texture2D" uid="uid://cdlaadpaqfpw4" path="res://Resources/Sprout Lands - Sprites - Basic pack/Objects/Basic_tools_and_meterials.png" id="6_1j2ii"]
 
 [sub_resource type="Resource" id="Resource_0fvou"]
 script = ExtResource("3_5enj4")
@@ -29,14 +28,14 @@ metadata/_custom_type_script = "uid://cxsxebxcv43g2"
 
 [sub_resource type="Resource" id="Resource_fitbf"]
 script = ExtResource("3_5enj4")
-name = "Test3"
-texture = ExtResource("6_1j2ii")
-dimensions = Vector2i(2, 2)
+name = "Test1"
+texture = ExtResource("4_5enj4")
+dimensions = Vector2i(1, 1)
 weight = 4.0
-quantity = 2
 metadata/_custom_type_script = "uid://cxsxebxcv43g2"
 
 [node name="CombatInventoryMain" type="Control" unique_id=2067008066]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1920.0
@@ -44,6 +43,7 @@ offset_bottom = 1080.0
 script = ExtResource("1_0fvou")
 
 [node name="InventoryBackground" type="PanelContainer" parent="." unique_id=1311815242]
+process_mode = 2
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -66,6 +66,7 @@ text = "Weight: "
 
 [node name="Inventory" type="PanelContainer" parent="." unique_id=141701961]
 unique_name_in_owner = true
+process_mode = 2
 layout_mode = 0
 offset_left = 384.0
 offset_top = 250.0

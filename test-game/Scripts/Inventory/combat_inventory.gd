@@ -18,9 +18,11 @@ func _input(event):
 func open():
 	visible = true
 	isOpen = true
+	get_tree().paused = true
 	opened.emit()
 
 func close():
 	visible = false
 	isOpen = false
+	get_tree().paused = false
 	closed.emit()

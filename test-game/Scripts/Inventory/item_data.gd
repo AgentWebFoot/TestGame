@@ -7,7 +7,7 @@ class_name ItemData extends Resource
 @export var quantity: int = 1
 @export var max_stack_size: int
 
-var uID: String:
+@export var uID: String:
 	get():
 		var res = name.to_lower().replace(" ", "_")
 		return res

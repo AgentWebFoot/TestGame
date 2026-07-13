@@ -25,7 +25,6 @@ func _gui_input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT && event.is_pressed():
 			var held_item = get_tree().get_first_node_in_group("held_item")
 			if !held_item:
-				var index = get_slot_index_from_coords(get_global_mouse_position())
 				var slot_index = get_slot_index_from_coords(get_global_mouse_position())
 				var item = slot_data[slot_index]
 				if !item:
@@ -51,6 +50,15 @@ func _gui_input(event: InputEvent) -> void:
 		var held_item = get_tree().get_first_node_in_group("held_item")
 		if held_item:
 			detect_held_item_intersection(held_item)
+
+func _input(event):
+	if event.is_action_pressed("drop_item"):
+		if get_tree().paused:
+			var held_item = get_tree().get_first_node_in_group("held_item")
+			if !held_item:
+				return
+			else:
+				held_item.get_dropped()
 
 func detect_held_item_intersection(held_item: Node) -> void:
 	var h_rect = Rect2(held_item.anchor_point, held_item.size)

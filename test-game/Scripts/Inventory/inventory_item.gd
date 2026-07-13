@@ -38,9 +38,19 @@ func get_placed(pos: Vector2i) -> void:
 	anchor_point = global_position - size / 2
 	remove_from_group("held_item")
 
+func get_dropped() -> void:
+	is_picked = false
+	texture = null
+	remove_from_group("held_item")
+
 func update_quantity_label() -> void:
 	if data.quantity > 1:
 		quantity_label.text = str(data.quantity)
 		quantity_label.show()
 	else:
 		quantity_label.hide()
+
+func stack(item_stack: int) -> void:
+	data.quantity += item_stack
+	update_quantity_label()
+	
