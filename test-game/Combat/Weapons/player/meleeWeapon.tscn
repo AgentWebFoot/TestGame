@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dbwts5v0o4l2c"]
 
-[ext_resource type="Script" path="res://Combat/Weapons/player/meleeWeapon.gd" id="1_3lykc"]
+[ext_resource type="Script" uid="uid://c0vv3cbrsqyi7" path="res://Combat/Weapons/player/meleeWeapon.gd" id="1_3lykc"]
 
 [node name="MeleeWeapon" type="Node2D" unique_id=397098870]
 script = ExtResource("1_3lykc")

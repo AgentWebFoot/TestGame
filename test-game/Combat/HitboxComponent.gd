@@ -14,10 +14,14 @@ func damage(attack: Attack):
 		return
 	
 	can_be_hit = false
+	var should_apply_damage := true
+
+	if knockback_body and knockback_body.has_method("handle_incoming_attack"):
+		should_apply_damage = bool(knockback_body.handle_incoming_attack(attack))
 	
-	if health_component:
+	if should_apply_damage and health_component:
 		health_component.damage(attack)
-	if knockback_body and knockback_body.has_method("apply_knockback"):
+	if should_apply_damage and knockback_body and knockback_body.has_method("apply_knockback"):
 		var direction := (
 			knockback_body.global_position - attack.attack_position
 		).normalized()
@@ -29,7 +33,8 @@ func damage(attack: Attack):
 		if knockback_body.has_method("apply_stun"):
 			knockback_body.apply_stun(attack.stun_duration)
 	
-	flash_red()
+	if not attack.skip_default_hit_flash:
+		flash_red()
 	
 	await get_tree().create_timer(hit_cooldown).timeout
 	can_be_hit = true

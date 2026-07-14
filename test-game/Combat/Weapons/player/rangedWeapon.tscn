@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://blyr56b7f5ojw"]
+
+[ext_resource type="Script" path="res://Combat/Weapons/player/rangedWeapon.gd" id="1_4k7qf"]
+[ext_resource type="PackedScene" path="res://Combat/Weapons/player/projectile.tscn" id="2_biqlx"]
+
+[node name="RangedWeapon" type="Node2D"]
+script = ExtResource("1_4k7qf")
+projectile_scene = ExtResource("2_biqlx")
+
+[node name="CooldownTimer" type="Timer" parent="."]

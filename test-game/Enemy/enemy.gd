@@ -11,6 +11,9 @@ enum EnemyState { IDLE, WALK }
 @export var knockback_duration: float = 0.15
 @export var knockback_decay: float = 800.0
 @export var attack_range: float = 50.0
+@export var collides_with_other_enemies: bool = true
+
+const ENEMY_BODY_LAYER: int = 6
 
 @onready var animation_tree: AnimationTree = get_node_or_null("AnimationTree")
 @onready var timer: Timer = get_node_or_null("Timer")
@@ -28,6 +31,8 @@ var knockback_time_remaining: float = 0.0
 var movement_velocity: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
+	set_collision_mask_value(ENEMY_BODY_LAYER, collides_with_other_enemies)
+
 	if animation_tree != null:
 		state_machine = animation_tree.get("parameters/playback")
 

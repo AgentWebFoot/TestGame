@@ -100,6 +100,7 @@ func deal_damage() -> void:
 			attack_data.knockback_force = knockback_force
 			attack_data.stun_duration = stun_duration
 			attack_data.attack_position = global_position
+			attack_data.source_node = get_parent() as Node2D
 
 			area.damage(attack_data)
 

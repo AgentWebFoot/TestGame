@@ -3,9 +3,15 @@
 [ext_resource type="Texture2D" uid="uid://cf68rhticr4lf" path="res://Player/16x16 Walk-Sheet.png" id="1_vx5l7"]
 [ext_resource type="Script" uid="uid://cysqqa04ixn0l" path="res://Player/player.gd" id="2_ptld2"]
 [ext_resource type="PackedScene" uid="uid://brfrfpncin1fy" path="res://Combat/hitbox_component.tscn" id="3_8g4oa"]
+[ext_resource type="Shader" uid="uid://4fq6g38up1s8" path="res://Combat/flash_white.gdshader" id="3_s1rgi"]
 [ext_resource type="PackedScene" uid="uid://blbq24j6cp5vd" path="res://Combat/health_component.tscn" id="4_6ysni"]
-[ext_resource type="PackedScene" uid="uid://8byoy5kgkyp6" path="res://Combat/Weapons/player/sword.tscn" id="5_8g4oa"]
 [ext_resource type="PackedScene" uid="uid://b1qycipn7xfvv" path="res://Player/DashSmoke.tscn" id="6_6ysni"]
+[ext_resource type="PackedScene" uid="uid://cojw4m8x8lhkl" path="res://Combat/Weapons/player/weaponProfiles/laser_gun.tscn" id="6_vlldt"]
+[ext_resource type="PackedScene" uid="uid://8byoy5kgkyp6" path="res://Combat/Weapons/player/weaponProfiles/sword.tscn" id="7_vlldt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s1rgi"]
+shader = ExtResource("3_s1rgi")
+shader_parameter/flash_amount = 0.0
 
 [sub_resource type="Animation" id="Animation_ptld2"]
 length = 0.001
@@ -654,6 +660,7 @@ dash_smoke_scene = ExtResource("6_6ysni")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1180147637]
 y_sort_enabled = true
+material = SubResource("ShaderMaterial_s1rgi")
 position = Vector2(0, -4)
 texture = ExtResource("1_vx5l7")
 hframes = 4
@@ -679,6 +686,8 @@ collision_mask = 8
 health_component = NodePath("../HealthComponent")
 knockback_body = NodePath("..")
 damage_visual = NodePath("../Sprite2D")
+hit_cooldown = 0.4
+flash_duration = 0.1
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HitboxComponent" unique_id=670096654]
 position = Vector2(0, -2)
@@ -687,7 +696,22 @@ debug_color = Color(0.98418385, 0.10309101, 0.18299195, 0.41960785)
 
 [node name="HealthComponent" parent="." unique_id=1642405860 instance=ExtResource("4_6ysni")]
 MAX_HEALTH = 100.0
-show_world_health_bar = true
 world_health_bar_offset = Vector2(0, -32)
 
-[node name="Sword" parent="." unique_id=397098870 instance=ExtResource("5_8g4oa")]
+[node name="WeaponHud" type="CanvasLayer" parent="." unique_id=968116067]
+
+[node name="WeaponNameLabel" type="Label" parent="WeaponHud" unique_id=1594626273]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -216.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 39.0
+theme_override_font_sizes/font_size = 20
+text = "LaserGun"
+horizontal_alignment = 2
+
+[node name="Sword" parent="." unique_id=397098870 instance=ExtResource("7_vlldt")]
+
+[node name="LaserGun" parent="." unique_id=1430779539 instance=ExtResource("6_vlldt")]

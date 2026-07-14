@@ -17,29 +17,53 @@ var knockback_velocity:= Vector2.ZERO
 
 @onready var animation_tree = $AnimationTree
 @onready var state_machine = animation_tree.get("parameters/playback")
-@onready var weapon: Weapon = $Sword
 @onready var hitbox: HitboxComponent = $HitboxComponent
+@onready var weapon_name_label: Label = $WeaponHud/WeaponNameLabel
 
 var is_dashing = false
 var aim_direction: Vector2 = Vector2.RIGHT
 var last_move_direction: Vector2 = Vector2.DOWN
+var weapons: Array[Weapon] = []
+var equipped_weapon_index: int = 0
+var weapon: Weapon = null
 
 func _ready():
 	add_to_group("Player")
+	_refresh_weapons()
 	last_move_direction = starting_direction.normalized()
 	update_animation_parameters(starting_direction)
 
 func _physics_process(_delta):
 	update_weapon_aim()
-	if Input.is_action_just_pressed("dash") and !is_dashing:
+	if Input.is_action_just_pressed("dash") and !is_dashing and (weapon == null or not weapon.prevents_movement()):
 		dash()
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("swapWeapon"):
+		swap_to_next_weapon()
+	if weapon != null and weapon.uses_hold_alt_attack() and Input.is_action_just_pressed("altAttack"):
+		weapon.set_aim_direction(aim_direction, weapon_rotation_offset)
+		weapon.begin_alt_attack()
+	if weapon != null and weapon.uses_hold_alt_attack() and Input.is_action_pressed("altAttack"):
+		weapon.set_aim_direction(aim_direction, weapon_rotation_offset)
+		weapon.update_alt_attack(_delta)
+	if weapon != null and weapon.uses_hold_alt_attack() and Input.is_action_just_released("altAttack"):
+		weapon.set_aim_direction(aim_direction, weapon_rotation_offset)
+		weapon.release_alt_attack()
+	if weapon != null and not weapon.uses_hold_alt_attack() and Input.is_action_just_pressed("altAttack"):
+		weapon.set_aim_direction(aim_direction, weapon_rotation_offset)
+		weapon.alt_attack()
+	if weapon != null and Input.is_action_just_pressed("specialAttack"):
+		weapon.set_aim_direction(aim_direction, weapon_rotation_offset)
+		weapon.special_attack()
+	if weapon != null and Input.is_action_just_pressed("attack"):
 		weapon.set_aim_direction(aim_direction, weapon_rotation_offset)
 		weapon.attack()
 	var input_direction = Vector2(
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
 		Input.get_action_strength("move_down")-Input.get_action_strength("move_up")
 	)
+	if weapon != null and weapon.prevents_movement():
+		input_direction = Vector2.ZERO
+
 	if input_direction != Vector2.ZERO:
 		last_move_direction = input_direction.normalized()
 	
@@ -51,14 +75,76 @@ func _physics_process(_delta):
 	update_animation_parameters(input_direction)
 	
 	movement_velocity = input_direction * move_speed
-	velocity = movement_velocity - knockback_velocity
+	velocity = movement_velocity + knockback_velocity
 	move_and_slide()
 	pick_new_state()
 
 func apply_knockback(direction: Vector2, force: float) -> void:
 	knockback_velocity = direction.normalized() * force
 
+func _refresh_weapons() -> void:
+	weapons.clear()
+
+	for child in get_children():
+		if child is Weapon:
+			weapons.append(child as Weapon)
+
+	if weapons.is_empty():
+		weapon = null
+		equipped_weapon_index = 0
+		return
+
+	equipped_weapon_index = clampi(equipped_weapon_index, 0, weapons.size() - 1)
+	_equip_weapon(equipped_weapon_index)
+
+func _equip_weapon(index: int) -> void:
+	if weapons.is_empty():
+		weapon = null
+		equipped_weapon_index = 0
+		_update_weapon_name_label()
+		return
+
+	equipped_weapon_index = posmod(index, weapons.size())
+	weapon = weapons[equipped_weapon_index]
+
+	for i in range(weapons.size()):
+		var player_weapon := weapons[i]
+		player_weapon.visible = i == equipped_weapon_index
+
+	if weapon != null:
+		weapon.set_aim_direction(aim_direction, weapon_rotation_offset)
+
+	_update_weapon_name_label()
+
+func swap_to_next_weapon() -> void:
+	if weapons.size() <= 1:
+		return
+
+	if weapon != null and weapon.is_attacking:
+		return
+
+	_equip_weapon(equipped_weapon_index + 1)
+
+func _update_weapon_name_label() -> void:
+	if weapon_name_label == null:
+		return
+
+	if weapon == null:
+		weapon_name_label.text = ""
+		return
+
+	weapon_name_label.text = weapon.get_display_name()
+
+func handle_incoming_attack(attack: Attack) -> bool:
+	if weapon == null:
+		return true
+
+	return weapon.handle_incoming_attack(attack)
+
 func update_weapon_aim() -> void:
+	if weapon == null:
+		return
+
 	var stick_direction := Input.get_vector(
 		"aim_left",
 		"aim_right",

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckq1oamo4htf7"
-path="res://.godot/imported/Slash.png-53afbb2baabc1d7e085794a4f3c1253d.ctex"
+uid="uid://dogjgte2fdvxa"
+path="res://.godot/imported/Projectile.png-d525b9fb45a16ae08e09640c70411448.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Combat/Weapons/Slash.png"
-dest_files=["res://.godot/imported/Slash.png-53afbb2baabc1d7e085794a4f3c1253d.ctex"]
+source_file="res://Combat/Weapons/Projectile.png"
+dest_files=["res://.godot/imported/Projectile.png-d525b9fb45a16ae08e09640c70411448.ctex"]
 
 [params]
 
