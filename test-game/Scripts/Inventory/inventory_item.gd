@@ -48,4 +48,8 @@ func update_quantity_label() -> void:
 func stack(item_stack: int) -> void:
 	data.quantity += item_stack
 	update_quantity_label()
-	
+
+func remove_item_in_hand(item: Node) -> void:
+	is_picked = false
+	item.queue_free()
+	remove_from_group("held_item")

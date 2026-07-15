@@ -11,16 +11,17 @@
 
 [sub_resource type="Resource" id="Resource_0fvou"]
 script = ExtResource("3_5enj4")
-name = "Test1"
+name = "Egg"
 texture = ExtResource("4_5enj4")
 dimensions = Vector2i(1, 1)
 weight = 0.5
 quantity = 2
+max_stack_size = 15
 metadata/_custom_type_script = "uid://cxsxebxcv43g2"
 
 [sub_resource type="Resource" id="Resource_ccy0o"]
 script = ExtResource("3_5enj4")
-name = "Test2"
+name = "Milk"
 texture = ExtResource("5_amvrc")
 dimensions = Vector2i(2, 1)
 weight = 3.0
@@ -28,18 +29,21 @@ metadata/_custom_type_script = "uid://cxsxebxcv43g2"
 
 [sub_resource type="Resource" id="Resource_fitbf"]
 script = ExtResource("3_5enj4")
-name = "Test1"
+name = "Egg"
 texture = ExtResource("4_5enj4")
 dimensions = Vector2i(1, 1)
 weight = 4.0
+max_stack_size = 15
 metadata/_custom_type_script = "uid://cxsxebxcv43g2"
 
 [node name="CombatInventoryMain" type="Control" unique_id=2067008066]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 0
-offset_right = 1920.0
-offset_bottom = 1080.0
+offset_left = 300.0
+offset_top = 190.0
+offset_right = 1452.0
+offset_bottom = 770.0
 script = ExtResource("1_0fvou")
 
 [node name="InventoryBackground" type="PanelContainer" parent="." unique_id=1311815242]
@@ -68,11 +72,7 @@ text = "Weight: "
 [node name="Inventory" type="PanelContainer" parent="." unique_id=141701961]
 unique_name_in_owner = true
 process_mode = 2
-layout_mode = 0
-offset_left = 384.0
-offset_top = 250.0
-offset_right = 384.0
-offset_bottom = 250.0
+layout_mode = 1
 script = ExtResource("2_duybw")
 items = Array[ExtResource("3_5enj4")]([SubResource("Resource_0fvou"), SubResource("Resource_ccy0o"), SubResource("Resource_fitbf")])
 inventory_item_scene = ExtResource("3_0fvou")

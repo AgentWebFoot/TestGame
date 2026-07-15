@@ -41,10 +41,22 @@ func _gui_input(event: InputEvent) -> void:
 				var items = items_in_area(index, held_item.data.dimensions)
 				if items.size():
 					if items.size() == 1:
-						held_item.get_placed(get_coords_from_slot_index(index))
-						remove_item_from_slot_data(items[0])
-						add_item_to_slot_data(index, held_item)
-						items[0].get_picked_up()
+						if items[0].data.uID != held_item.data.uID:
+							held_item.get_placed(get_coords_from_slot_index(index))
+							remove_item_from_slot_data(items[0])
+							add_item_to_slot_data(index, held_item)
+							items[0].get_picked_up()
+						if items[0].data.uID == held_item.data.uID:
+							var quantity_sum = items[0].data.quantity + held_item.data.quantity
+							if quantity_sum > items[0].data.max_stack_size:
+								if items[0].data.quantity < items[0].data.max_stack_size:
+									var diff = items[0].data.max_stack_size - items[0].data.quantity
+									items[0].stack(diff)
+									held_item.data.quantity -= diff
+									held_item.remove_item_in_hand()
+							else:
+								items[0].stack(held_item.data.quantity)
+								held_item.remove_item_in_hand(held_item)
 					return
 				held_item.get_placed(get_coords_from_slot_index(index))
 				add_item_to_slot_data(index, held_item)
