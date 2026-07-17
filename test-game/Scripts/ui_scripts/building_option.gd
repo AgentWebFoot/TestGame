@@ -6,7 +6,8 @@ class_name building_option extends Control
 
 var building_dat= {"name":"pizza"}
 var initialized = false
-var grid_tile = load("res://Resources/Temp_Assets/build_ui_grid.png")
+var grid_tile = load("res://Resources/Utility_Assets/build_ui_grid.png")
+var bad_grid_tile = load("res://Resources/Utility_Assets/build_ui_grid_bad.png")
 #var grid_tile = ImageTexture.create_from_image(Image.load_from_file("res://Resources/Temp_Assets/build_ui_grid.png"))
 
 func _craft_tile(type: int) -> Node:
@@ -17,8 +18,11 @@ func _craft_tile(type: int) -> Node:
 		tile.set_v_size_flags(Control.SIZE_EXPAND_FILL)
 		tile.set_h_size_flags(Control.SIZE_EXPAND_FILL)
 	else:
-		tile = ColorRect.new()
-		tile.color = Color(1,1,1,0)
+		#tile = ColorRect.new()
+		#tile.color = Color(1,1,1,0)
+		
+		tile = TextureRect.new()
+		tile.set_texture(bad_grid_tile)
 		tile.set_v_size_flags(Control.SIZE_EXPAND_FILL)
 		tile.set_h_size_flags(Control.SIZE_EXPAND_FILL)
 	return tile

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2aulxmryfbw6"
-path="res://.godot/imported/building_layer_tiles.png-18fd0d40e9b2c86a6a475839040e7944.ctex"
+uid="uid://d32rmvrwir26e"
+path="res://.godot/imported/build_ui_grid_bad.png-e92b7e59dc19814cc5a1f4a2bcb08dc8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Temp_Assets/building_layer_tiles.png"
-dest_files=["res://.godot/imported/building_layer_tiles.png-18fd0d40e9b2c86a6a475839040e7944.ctex"]
+source_file="res://Resources/Utility_Assets/build_ui_grid_bad.png"
+dest_files=["res://.godot/imported/build_ui_grid_bad.png-e92b7e59dc19814cc5a1f4a2bcb08dc8.ctex"]
 
 [params]
 

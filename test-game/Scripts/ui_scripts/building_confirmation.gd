@@ -32,6 +32,9 @@ func _on_confirm_mouse_exited() -> void:
 	pass # Replace with function body.
 
 func _on_confirm_button_up() -> void:
+	if on_confirm:
+		BuildEnv.build_done.emit()
+		pass
 	pass # Replace with function body.
 
 

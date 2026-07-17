@@ -13,6 +13,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s1rgi"]
 shader = ExtResource("3_s1rgi")
 shader_parameter/flash_amount = 0.0
+[ext_resource type="PackedScene" uid="uid://b0wdb47mr5ssh" path="res://Scenes/utility_scenes/player_interactor.tscn" id="5_8g4oa"]
 
 [sub_resource type="Animation" id="Animation_ptld2"]
 length = 0.001
@@ -764,3 +765,5 @@ color = Color(1, 1, 1, 0.75)
 [node name="BatWeapon" parent="." unique_id=1808836637 instance=ExtResource("11_hu7v2")]
 
 [node name="LaserGunWeapon" parent="." unique_id=1086524227 instance=ExtResource("8_s1rgi")]
+
+[node name="Player_Interactor" parent="." unique_id=950506813 instance=ExtResource("5_8g4oa")]

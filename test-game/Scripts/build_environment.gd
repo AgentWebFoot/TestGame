@@ -8,6 +8,8 @@ signal stop_buildin
 signal valid_blueprint
 signal remove_blueprint
 
+signal build_done
+
 func enter_build_environment() -> void:
 	enabled = true
 	
