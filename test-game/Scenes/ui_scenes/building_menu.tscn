@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://ca4m1hc1oublw"]
 
 [ext_resource type="Theme" uid="uid://bp3sd234qbc7t" path="res://Scenes/ui_scenes/building_option.tres" id="1_b1ow6"]
-[ext_resource type="Script" uid="uid://bf3hpqsm0tmvp" path="res://Scenes/ui_scenes/building_menu.gd" id="1_fai5a"]
-[ext_resource type="Script" uid="uid://ceg2payrbg76o" path="res://Scenes/ui_scenes/blueprint_list.gd" id="2_fai5a"]
-[ext_resource type="PackedScene" uid="uid://6bui3d4c5cd" path="res://Scenes/ui_scenes/building_option.tscn" id="2_kkg67"]
+[ext_resource type="Script" uid="uid://bf3hpqsm0tmvp" path="res://Scripts/ui_scripts/building_menu.gd" id="1_fai5a"]
+[ext_resource type="Script" uid="uid://ceg2payrbg76o" path="res://Scripts/ui_scripts/blueprint_list.gd" id="2_fai5a"]
 
 [sub_resource type="Animation" id="Animation_x6tdj"]
 resource_name = "Hide Menu"
@@ -134,10 +133,6 @@ size_flags_vertical = 3
 mouse_filter = 2
 theme = ExtResource("1_b1ow6")
 script = ExtResource("2_fai5a")
-
-[node name="Building_option" parent="MarginContainer/ScrollerContainer/BlueprintList" unique_id=350403471 instance=ExtResource("2_kkg67")]
-layout_mode = 2
-mouse_behavior_recursive = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=770548677]
 libraries/ = SubResource("AnimationLibrary_x6tdj")

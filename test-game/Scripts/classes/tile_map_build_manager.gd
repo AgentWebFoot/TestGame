@@ -15,6 +15,7 @@ var valid_placement = false
 func _ready() -> void:
 	BuildEnv.start_buildin.connect(building_start)
 	BuildEnv.stop_buildin.connect(building_stop)
+	BuildEnv.build_done.connect(complete_building)
 	pass
 
 func _input(event):
@@ -38,6 +39,7 @@ func hover_mark(coordinates: Vector2) -> Array[Vector2]:
 	var cur_coords = hovermap.local_to_map(coordinates)
 	var validity_count = 0
 	var gridspace = current_building["gridspace"]
+	valid_placement = false
 	gridspace.reverse()
 	for i in gridspace:
 		i.reverse()
@@ -71,6 +73,26 @@ func building_start(building: Dictionary) -> void:
 	current_building = building
 	build_mode = true
 	pass
+
+func complete_building() -> void:
+	if current_building == null:
+		print("No building? How did we get here?")
+		get_tree().quit()
+	var placement_spot_tile = active_hovered[-1]
+	var placement_spot_local = hovermap.map_to_local(placement_spot_tile)
+	placement_spot_local.x = placement_spot_local.x - hovermap.tile_set.tile_size.x/2
+	placement_spot_local.y = placement_spot_local.y - hovermap.tile_set.tile_size.y/2
+	var build_scene = load("res://Scenes/building_scenes/"+current_building["building_scene"]).instantiate()
+	build_scene.position = placement_spot_local
+	build_scene.y_sort_enabled = true
+	add_child(build_scene)
+	
+	for i in active_hovered:
+		buildmap.set_cell(i,0,Vector2i(current_building["tile_id_coords"][0],current_building["tile_id_coords"][1]))
+	
+	BuildEnv.stop_buildin.emit() #returns user back to build menu
+	#building_stop() #Lets player keep building the same building
+	
 
 func building_stop() -> void:
 	for i in active_hovered:

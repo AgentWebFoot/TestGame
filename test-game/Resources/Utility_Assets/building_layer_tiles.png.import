@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b81g4srb28716"
-path="res://.godot/imported/Cross_hovered.png-df430bde8c9a5587723eede97a1e8b20.ctex"
+uid="uid://b2aulxmryfbw6"
+path="res://.godot/imported/building_layer_tiles.png-2c4cb32a3b40799acf59ce7648ad5157.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Ui Assets/check_and_cross/Cross_hovered.png"
-dest_files=["res://.godot/imported/Cross_hovered.png-df430bde8c9a5587723eede97a1e8b20.ctex"]
+source_file="res://Resources/Utility_Assets/building_layer_tiles.png"
+dest_files=["res://.godot/imported/building_layer_tiles.png-2c4cb32a3b40799acf59ce7648ad5157.ctex"]
 
 [params]
 

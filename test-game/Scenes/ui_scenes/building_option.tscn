@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://6bui3d4c5cd"]
 
-[ext_resource type="Script" uid="uid://dlyt2xh3be535" path="res://Scenes/ui_scenes/building_option.gd" id="1_fdn6c"]
+[ext_resource type="Script" uid="uid://dlyt2xh3be535" path="res://Scripts/ui_scripts/building_option.gd" id="1_fdn6c"]
 [ext_resource type="Theme" uid="uid://bp3sd234qbc7t" path="res://Scenes/ui_scenes/building_option.tres" id="1_q2tnl"]
 
 [node name="Building_option" type="Control" unique_id=1070794698 node_paths=PackedStringArray("name_label", "blueprint_image", "tile_print_grid")]

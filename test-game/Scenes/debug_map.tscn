@@ -27,6 +27,7 @@ position = Vector2(168, 82)
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=118655845]
 
 [node name="BuildingMenu" parent="CanvasLayer" unique_id=987986865 instance=ExtResource("4_6mob1")]
+offset_left = -1920.0
 offset_right = 0.0
 
 [node name="BuildingConfirmation" parent="CanvasLayer" unique_id=1863093831 instance=ExtResource("5_gu212")]

@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cysqqa04ixn0l" path="res://Player/player.gd" id="2_ptld2"]
 [ext_resource type="PackedScene" uid="uid://brfrfpncin1fy" path="res://Combat/hitbox_component.tscn" id="3_8g4oa"]
 [ext_resource type="PackedScene" uid="uid://blbq24j6cp5vd" path="res://Combat/health_component.tscn" id="4_6ysni"]
+[ext_resource type="PackedScene" uid="uid://b0wdb47mr5ssh" path="res://Scenes/utility_scenes/player_interactor.tscn" id="5_8g4oa"]
 
 [sub_resource type="Animation" id="Animation_ptld2"]
 length = 0.001
@@ -679,3 +680,5 @@ shape = SubResource("RectangleShape2D_fb7ps")
 debug_color = Color(0.98418385, 0.10309101, 0.18299195, 0.41960785)
 
 [node name="HealthComponent" parent="." unique_id=1642405860 instance=ExtResource("4_6ysni")]
+
+[node name="Player_Interactor" parent="." unique_id=950506813 instance=ExtResource("5_8g4oa")]

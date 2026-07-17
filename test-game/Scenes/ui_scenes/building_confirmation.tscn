@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://chuy825ybb8gf"]
 
-[ext_resource type="Script" uid="uid://csqqhwipa51jy" path="res://building_confirmation.gd" id="1_30glv"]
-[ext_resource type="Texture2D" uid="uid://ssliy0f3jph1" path="res://Resources/Ui Assets/check_and_cross/Check.png" id="2_4afux"]
-[ext_resource type="Texture2D" uid="uid://b6spvw2cqhpmw" path="res://Resources/Ui Assets/check_and_cross/Check_pressed.png" id="3_e37m7"]
-[ext_resource type="Texture2D" uid="uid://d1jqqjn2x8ue5" path="res://Resources/Ui Assets/check_and_cross/Check_hovered.png" id="4_6uj37"]
-[ext_resource type="Texture2D" uid="uid://caegt0alhjbms" path="res://Resources/Ui Assets/check_and_cross/Check_Crossed.png" id="5_4afux"]
-[ext_resource type="Texture2D" uid="uid://bfbg7vnbfp5n7" path="res://Resources/Ui Assets/check_and_cross/Cross.png" id="5_rmuq2"]
-[ext_resource type="Texture2D" uid="uid://djl76fmr0y6mj" path="res://Resources/Ui Assets/check_and_cross/Cross_pressed.png" id="6_w6omb"]
-[ext_resource type="Texture2D" uid="uid://biety0rt8uu6d" path="res://Resources/Ui Assets/check_and_cross/Cross_hovered.png" id="7_1ic38"]
+[ext_resource type="Script" uid="uid://csqqhwipa51jy" path="res://Scripts/ui_scripts/building_confirmation.gd" id="1_30glv"]
+[ext_resource type="Texture2D" uid="uid://x4no6lbg6bg0" path="res://Resources/Ui Assets/check_and_cross/Check.png" id="2_4afux"]
+[ext_resource type="Texture2D" uid="uid://dr817i3nawixn" path="res://Resources/Ui Assets/check_and_cross/Check_pressed.png" id="3_e37m7"]
+[ext_resource type="Texture2D" uid="uid://buwnvoj5hqubk" path="res://Resources/Ui Assets/check_and_cross/Check_hovered.png" id="4_6uj37"]
+[ext_resource type="Texture2D" uid="uid://chh8mdh8ifk2x" path="res://Resources/Ui Assets/check_and_cross/Check_Crossed.png" id="5_4afux"]
+[ext_resource type="Texture2D" uid="uid://cxdbk76nctsyi" path="res://Resources/Ui Assets/check_and_cross/Cross.png" id="5_rmuq2"]
+[ext_resource type="Texture2D" uid="uid://tuvb8ujrjta0" path="res://Resources/Ui Assets/check_and_cross/Cross_pressed.png" id="6_w6omb"]
+[ext_resource type="Texture2D" uid="uid://b81g4srb28716" path="res://Resources/Ui Assets/check_and_cross/Cross_hovered.png" id="7_1ic38"]
 
 [sub_resource type="Animation" id="Animation_f7gn1"]
 resource_name = "Fade In"

@@ -1,9 +1,9 @@
 [gd_scene format=4 uid="uid://d02q43jtdwo7f"]
 
 [ext_resource type="Script" uid="uid://cdae72knhgdfs" path="res://Scripts/classes/tile_map_build_manager.gd" id="1_ngmhs"]
-[ext_resource type="TileSet" uid="uid://dn8nrdblswfk8" path="res://Resources/Temp_Assets/hover_selection_set.tres" id="2_jcsea"]
+[ext_resource type="TileSet" uid="uid://dn8nrdblswfk8" path="res://Resources/Utility_Assets/hover_selection_set.tres" id="2_jcsea"]
 [ext_resource type="TileSet" uid="uid://ccg08vs2y3n8d" path="res://Resources/Temp_Assets/debug_map_set.tres" id="3_83a6v"]
-[ext_resource type="TileSet" uid="uid://ccovfdxsg62uk" path="res://Resources/Temp_Assets/building_tile_set.tres" id="4_hxdkx"]
+[ext_resource type="TileSet" uid="uid://ccovfdxsg62uk" path="res://Resources/Utility_Assets/building_tile_set.tres" id="4_hxdkx"]
 
 [node name="debug_map" type="Node2D" unique_id=982643310 node_paths=PackedStringArray("tilemaps", "hovermap", "buildmap")]
 y_sort_enabled = true
