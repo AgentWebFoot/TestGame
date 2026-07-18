@@ -8,6 +8,7 @@ class_name PlayerProjectile
 @export var stun_duration: float = 0.0
 @export var lingers: bool = false
 @export var damage_tick_interval: float = 0.2
+@export var rotate_to_direction: bool = true
 
 const FADE_OUT_DURATION: float = 0.15
 
@@ -53,7 +54,8 @@ func configure(
 ) -> void:
 	if new_direction.length_squared() > 0.0:
 		direction = new_direction.normalized()
-		rotation = direction.angle()
+		if rotate_to_direction:
+			rotation = direction.angle()
 
 	speed = new_speed
 	lifetime = new_lifetime
