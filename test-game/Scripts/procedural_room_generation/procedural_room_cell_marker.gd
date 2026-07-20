@@ -23,7 +23,7 @@ func _process(_delta: float) -> void:
 	if not Engine.is_editor_hint():
 		return
 
-	_sync_cell_from_position()
+	_sync_position_from_cell()
 	queue_redraw()
 
 func _draw() -> void:
@@ -70,7 +70,6 @@ func _sync_cell_from_position() -> void:
 	)
 
 	_is_syncing = true
-	cell = snapped_cell
 	position = (Vector2(snapped_cell.x, snapped_cell.y) + Vector2(0.5, 0.5)) * resolved_cell_size
 	_is_syncing = false
 

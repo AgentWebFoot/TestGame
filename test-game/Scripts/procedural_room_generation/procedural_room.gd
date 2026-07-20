@@ -34,7 +34,7 @@ func _draw() -> void:
 		for cell in cells:
 			var rect := Rect2(Vector2(cell.x, cell.y) * resolved_cell_size, resolved_cell_size)
 			draw_rect(rect, debug_fill_color, true)
-			draw_rect(rect, debug_outline_color, false, 4.0)
+			draw_rect(rect, debug_outline_color, false)
 			draw_line(rect.position, rect.position + rect.size, debug_outline_color, 2.0)
 			draw_line(
 				rect.position + Vector2(rect.size.x, 0.0),
