@@ -5,10 +5,6 @@
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pqf5u"]
 load_path = "res://.godot/imported/Slash.png-53afbb2baabc1d7e085794a4f3c1253d.ctex"
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ubfvx"]
-radius = 15.613669
-height = 61.110725
-
 [sub_resource type="Animation" id="Animation_ubfvx"]
 resource_name = "Attack"
 length = 0.13333334
@@ -46,7 +42,9 @@ _data = {
 &"RESET": SubResource("Animation_n0rk5")
 }
 
-[node name="swordEnemy" unique_id=397098870 instance=ExtResource("1_pqf5u")]
+[node name="lightEnemy" unique_id=397098870 instance=ExtResource("1_pqf5u")]
+scale = Vector2(0.5, 0.5)
+attack_cooldown = 0.75
 
 [node name="Sprite2D" parent="." index="0" unique_id=1695758661]
 position = Vector2(24, -8)
@@ -55,15 +53,14 @@ texture = SubResource("CompressedTexture2D_pqf5u")
 hframes = 4
 
 [node name="AttackArea" parent="." index="1" unique_id=95570106]
+position = Vector2(-1, 1)
 collision_layer = 8
 collision_mask = 8
 
-[node name="CollisionShape2D" parent="AttackArea" index="0" unique_id=773213060]
+[node name="CollisionPolygon2D" parent="AttackArea" index="0" unique_id=553918709]
 visible = false
-position = Vector2(37, -17)
-rotation = 0.72431165
-scale = Vector2(1.5, 1.5)
-shape = SubResource("CapsuleShape2D_ubfvx")
+position = Vector2(1, 0)
+polygon = PackedVector2Array(-3, 0, 45, -33, 61, -41, 65, -16, 58, -5, 15, 10, 2, 5)
 
 [node name="AnimationPlayer" parent="." index="4" unique_id=217388248]
 libraries/ = SubResource("AnimationLibrary_drmp3")

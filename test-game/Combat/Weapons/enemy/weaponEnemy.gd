@@ -14,12 +14,13 @@ extends Node2D
 @onready var attack_area: Area2D = $AttackArea
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-
+var owner_visual: CanvasItem
 var can_attack: bool = true
 var is_attacking: bool = false
 
 func _ready() -> void:
 	weapon_sprite.visible = false
+	owner_visual = _resolve_owner_visual()
 
 func attack(target_position: Vector2) -> void:
 	if !can_attack or is_attacking:
@@ -36,11 +37,11 @@ func attack(target_position: Vector2) -> void:
 		return
 
 	weapon_sprite.visible = true
-	animation_player.play("Attack")
+	_play_attack_animation()
 
-	deal_damage()
+	_perform_attack(target_position)
 
-	await animation_player.animation_finished
+	await _wait_for_attack_finish()
 
 	weapon_sprite.visible = false
 	is_attacking = false
@@ -76,10 +77,13 @@ func flash_white() -> void:
 	shader_material.set_shader_parameter("flash_amount", original_flash_amount)
 
 func _get_enemy_shader_material() -> ShaderMaterial:
-	if not is_instance_valid(enemy):
+	if not is_instance_valid(owner_visual):
+		owner_visual = _resolve_owner_visual()
+
+	if not is_instance_valid(owner_visual):
 		return null
 
-	var current: CanvasItem = enemy
+	var current: CanvasItem = owner_visual
 
 	while current != null:
 		var shader_material := current.material as ShaderMaterial
@@ -104,6 +108,20 @@ func deal_damage() -> void:
 
 			area.damage(attack_data)
 
+func _perform_attack(_target_position: Vector2) -> void:
+	deal_damage()
+
+func _play_attack_animation() -> void:
+	if animation_player != null and animation_player.has_animation("Attack"):
+		animation_player.play("Attack")
+
+func _wait_for_attack_finish() -> void:
+	if animation_player != null and animation_player.has_animation("Attack"):
+		await animation_player.animation_finished
+		return
+
+	await get_tree().create_timer(attack_duration).timeout
+
 func aim_at(target_position: Vector2) -> void:
 	var direction := global_position.direction_to(target_position)
 	var current_scale := scale
@@ -115,3 +133,14 @@ func aim_at(target_position: Vector2) -> void:
 
 	scale = current_scale
 	rotation = direction.angle()
+
+func _resolve_owner_visual() -> CanvasItem:
+	if is_instance_valid(enemy):
+		return enemy
+
+	var parent_node := get_parent()
+
+	if parent_node == null:
+		return null
+
+	return parent_node.get_node_or_null("Sprite2D") as CanvasItem

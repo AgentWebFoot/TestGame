@@ -41,17 +41,8 @@ z_index = 20
 zoom = Vector2(3, 3)
 limit_enabled = false
 
-[node name="Orc" parent="." unique_id=1822812796 instance=ExtResource("3_6mob1")]
-position = Vector2(-176, 214)
+[node name="MushroomCrab" parent="." unique_id=414696781 instance=ExtResource("4_gu212")]
+position = Vector2(-175, 191)
 
-[node name="Orc2" parent="." unique_id=1174630439 instance=ExtResource("3_6mob1")]
-position = Vector2(-1, 280)
-
-[node name="Orc3" parent="." unique_id=1210346156 instance=ExtResource("3_6mob1")]
-position = Vector2(-143, 317)
-
-[node name="Orc4" parent="." unique_id=1195720720 instance=ExtResource("3_6mob1")]
-position = Vector2(-35, 401)
-
-[node name="Orc5" parent="." unique_id=286456920 instance=ExtResource("3_6mob1")]
-position = Vector2(224, 77)
+[node name="TurnipGuy" parent="." unique_id=232309484 instance=ExtResource("4_6mob1")]
+position = Vector2(-21, 302)
