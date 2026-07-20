@@ -16,13 +16,16 @@ enum EnemyState { IDLE, WALK }
 const ENEMY_BODY_LAYER: int = 6
 
 @onready var animation_tree: AnimationTree = get_node_or_null("AnimationTree")
+@onready var sprite: Sprite2D = get_node_or_null("Sprite2D")
 @onready var timer: Timer = get_node_or_null("Timer")
 @onready var player: Node2D = get_tree().get_first_node_in_group("Player") as Node2D
-@onready var weapon: WeaponEnemy = get_node_or_null("swordEnemy") as WeaponEnemy
+@onready var weapon: WeaponEnemy = _find_weapon()
 
 var state_machine = null
 var is_agro: bool = false
 var move_direction: Vector2 = Vector2.ZERO
+var facing_direction: Vector2 = Vector2.RIGHT
+var facing_x_sign: float = 1.0
 var current_state: EnemyState = EnemyState.IDLE
 var stun_time_remaining: float = 0.0
 var pending_stun_duration: float = 0.0
@@ -32,10 +35,16 @@ var movement_velocity: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	set_collision_mask_value(ENEMY_BODY_LAYER, collides_with_other_enemies)
+	_ensure_unique_sprite_material()
+
+	if weapon == null:
+		weapon = _find_weapon()
 
 	if animation_tree != null:
+		animation_tree.active = true
 		state_machine = animation_tree.get("parameters/playback")
 
+	_set_blend_positions(_get_animation_facing_direction())
 	pick_new_state()
 
 func _physics_process(delta: float) -> void:
@@ -61,18 +70,20 @@ func _physics_process(delta: float) -> void:
 
 		if is_agro:
 			move_direction = direction_to_player
+			_update_facing_direction(direction_to_player)
 
 			if distance_to_player <= attack_range:
 				if weapon != null and weapon.can_attack:
 					weapon.attack(player.global_position)
 					movement_velocity = Vector2.ZERO
 					current_state = EnemyState.IDLE
+					_set_blend_positions(_get_animation_facing_direction())
 					_travel_state(&"Idle")
 			else:
 				movement_velocity = direction_to_player * move_speed
 				current_state = EnemyState.WALK
 				_travel_state(&"Walk")
-				_set_blend_positions(direction_to_player)
+				_set_blend_positions(_get_animation_facing_direction())
 
 		elif current_state == EnemyState.WALK:
 			movement_velocity = move_direction * move_speed
@@ -104,6 +115,7 @@ func _physics_process(delta: float) -> void:
 		)
 		movement_velocity = Vector2.ZERO
 		velocity = Vector2.ZERO
+		_set_blend_positions(_get_animation_facing_direction())
 		_travel_state(&"Idle")
 		move_and_slide()
 		return
@@ -125,7 +137,8 @@ func select_new_direction() -> void:
 	if move_direction == Vector2.ZERO:
 		move_direction = Vector2.RIGHT
 
-	_set_blend_positions(move_direction)
+	_update_facing_direction(move_direction)
+	_set_blend_positions(_get_animation_facing_direction())
 
 func apply_knockback(direction: Vector2, force: float) -> void:
 	knockback_velocity = direction * force
@@ -144,6 +157,7 @@ func pick_new_state() -> void:
 			timer.start(walk_time)
 	elif current_state == EnemyState.WALK:
 		velocity = Vector2.ZERO
+		_set_blend_positions(_get_animation_facing_direction())
 		_travel_state(&"Idle")
 		current_state = EnemyState.IDLE
 
@@ -168,3 +182,31 @@ func _travel_state(state_name: StringName) -> void:
 		return
 
 	state_machine.travel(state_name)
+
+func _find_weapon() -> WeaponEnemy:
+	for child in get_children():
+		if child is WeaponEnemy:
+			return child as WeaponEnemy
+
+	return null
+
+func _ensure_unique_sprite_material() -> void:
+	if sprite == null or sprite.material == null:
+		return
+
+	sprite.material = sprite.material.duplicate()
+
+func _update_facing_direction(direction: Vector2) -> void:
+	if direction == Vector2.ZERO:
+		return
+
+	facing_direction = direction.normalized()
+
+	if absf(direction.x) > 0.01:
+		facing_x_sign = signf(direction.x)
+
+func _get_animation_facing_direction() -> Vector2:
+	if facing_x_sign < 0.0:
+		return Vector2.LEFT
+
+	return Vector2.RIGHT

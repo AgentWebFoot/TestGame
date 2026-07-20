@@ -2,7 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://d02q43jtdwo7f" path="res://Scenes/debug_terrain.tscn" id="1_ngmhs"]
 [ext_resource type="PackedScene" uid="uid://cqns2ekd1t78t" path="res://Player/Player.tscn" id="2_o67dp"]
-[ext_resource type="PackedScene" uid="uid://x2k7ot164jgh" path="res://Enemy/Orc/Orc.tscn" id="3_6mob1"]
+[ext_resource type="PackedScene" uid="uid://cr8asunhqkfb2" path="res://Enemy/TurnipGuy/TurnipGuy.tscn" id="4_6mob1"]
+[ext_resource type="PackedScene" uid="uid://27qt3ow00q45" path="res://Enemy/MushroomCrab/MushroomCrab.tscn" id="4_gu212"]
 
 [node name="Game" type="Node2D" unique_id=408274446]
 y_sort_enabled = true
@@ -22,17 +23,8 @@ position = Vector2(-83, 29)
 zoom = Vector2(3, 3)
 limit_enabled = false
 
-[node name="Orc" parent="." unique_id=1822812796 instance=ExtResource("3_6mob1")]
-position = Vector2(-176, 214)
+[node name="MushroomCrab" parent="." unique_id=414696781 instance=ExtResource("4_gu212")]
+position = Vector2(-175, 191)
 
-[node name="Orc2" parent="." unique_id=1174630439 instance=ExtResource("3_6mob1")]
-position = Vector2(-1, 280)
-
-[node name="Orc3" parent="." unique_id=1210346156 instance=ExtResource("3_6mob1")]
-position = Vector2(-143, 317)
-
-[node name="Orc4" parent="." unique_id=1195720720 instance=ExtResource("3_6mob1")]
-position = Vector2(-35, 401)
-
-[node name="Orc5" parent="." unique_id=286456920 instance=ExtResource("3_6mob1")]
-position = Vector2(224, 77)
+[node name="TurnipGuy" parent="." unique_id=232309484 instance=ExtResource("4_6mob1")]
+position = Vector2(-21, 302)
